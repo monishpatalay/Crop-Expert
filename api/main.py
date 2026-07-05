@@ -1,3 +1,4 @@
+import os
 from io import BytesIO
 from pathlib import Path
 
@@ -15,6 +16,9 @@ origins = [
     "http://localhost:3000",
     "http://localhost:5173",
 ]
+extra_origins = os.environ.get("ALLOWED_ORIGINS", "")
+origins.extend(origin.strip() for origin in extra_origins.split(",") if origin.strip())
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
