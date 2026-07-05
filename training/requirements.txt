@@ -1,0 +1,7 @@
+matplotlib
+numpy
+notebook
+tensorflow==2.8
+tensorflow-addons
+tensorflow-model-optimization
+
