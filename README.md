@@ -1,5 +1,9 @@
 # Crop Expert
 
+**Live demo: [frontend-xi-nine-20.vercel.app](https://frontend-xi-nine-20.vercel.app)**
+(API is hosted on Render's free tier, so the first prediction after a period of inactivity
+can take ~50s while the server wakes up — everything after that is fast.)
+
 Crop Expert is a full-stack plant leaf disease detector: upload a photo of a leaf and get an
 instant diagnosis from a convolutional neural network. The production app is framed around
 **potato leaf disease** (Healthy / Early Blight / Late Blight), but the underlying model was
