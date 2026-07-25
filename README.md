@@ -1,6 +1,6 @@
 # Crop Expert
 
-**Live demo: [frontend-xi-nine-20.vercel.app](https://frontend-xi-nine-20.vercel.app)**
+**Live demo: [crop-expert.monishpatalay.dev](https://crop-expert.monishpatalay.dev)**
 (API is hosted on Render's free tier, so the first prediction after a period of inactivity
 can take ~50s while the server wakes up — everything after that is fast.)
 
