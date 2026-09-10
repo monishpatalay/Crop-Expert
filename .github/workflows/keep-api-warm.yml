@@ -1,0 +1,36 @@
+name: Keep Render API warm
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+    - cron: '0 6 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    if: github.event.schedule == '*/10 * * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping API
+        run: curl -sS -o /dev/null -w "%{http_code}" https://crop-expert-api.onrender.com/ping
+
+  keepalive:
+    if: github.event.schedule == '0 6 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Commit a marker if the repo has been quiet for 45+ days
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          days_idle=$(( ($(date +%s) - $(git log -1 --format=%ct)) / 86400 ))
+          if [ "$days_idle" -ge 45 ]; then
+            date -u +"%Y-%m-%dT%H:%M:%SZ" > .github/keepalive-timestamp.txt
+            git add .github/keepalive-timestamp.txt
+            git commit -m "chore: keepalive commit to prevent scheduled workflows being disabled"
+            git push
+          else
+            echo "Repo had activity $days_idle days ago, no keepalive commit needed."
+          fi
